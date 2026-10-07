@@ -1,0 +1,163 @@
+/* ===== AUTH STYLES ===== */
+.auth-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-container {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    max-width: 600px;
+    width: 95%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.auth-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+/* ===== AUTH TABS ===== */
+.auth-tabs {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    color: #777;
+    transition: all 0.3s;
+    border-bottom: 3px solid transparent;
+}
+
+.auth-tab.active {
+    color: #2c3e50;
+    border-bottom-color: #2c3e50;
+}
+
+/* ===== AUTH FORMS ===== */
+.auth-form {
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.auth-form .form-group {
+    margin-bottom: 15px;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+}
+
+.auth-form input, .auth-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.auth-form input:focus, .auth-form select:focus {
+    border-color: #2c3e50;
+    outline: none;
+}
+
+/* ===== AUTH BUTTONS ===== */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.auth-btn:hover {
+    background: #1a252f;
+}
+
+/* ===== AUTH MESSAGES ===== */
+.auth-error {
+    color: #e74c3c;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.auth-success {
+    color: #27ae60;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 20px;
+    color: #777;
+}
+
+.auth-switch a {
+    color: #2c3e50;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+/* ===== SCHOOL CODE DISPLAY ===== */
+.school-code-display {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 20px 0;
+    border: 2px dashed #2c3e50;
+}
+
+.school-code-display h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.school-code-display .code {
+    font-size: 36px;
+    font-weight: bold;
+    color: #e74c3c;
+    letter-spacing: 5px;
+}
+

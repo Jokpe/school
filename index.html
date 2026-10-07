@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jokpe EduTrack - School Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Add these to the head section -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/staff.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/admission.css">
+    <link rel="stylesheet" href="css/tables.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/reportCards.css">
+</head>
+<body>
+
+    <!-- ===== AUTHENTICATION OVERLAY ===== -->
+    <div id="authOverlay" class="auth-overlay">
+        <div class="auth-container">
+            <h2><i class="fas fa-graduation-cap"></i> Jokpe EduTrack</h2>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="register">Register School</div>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label>School Code</label>
+                    <input type="text" id="loginSchoolCode" placeholder="Enter your school code">
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <button class="auth-btn" onclick="handleLogin()">Login</button>
+                <div id="loginError" class="auth-error"></div>
+            </div>
+
+            <!-- Register School Form -->
+            <div id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label>School Name *</label>
+                    <input type="text" id="regSchoolName" placeholder="Enter school name">
+                </div>
+                <div class="form-group">
+                    <label>Address *</label>
+                    <input type="text" id="regAddress" placeholder="Enter school address">
+                </div>
+                <div class="form-group">
+                    <label>Region *</label>
+                    <input type="text" id="regRegion" placeholder="Enter region">
+                </div>
+                <div class="form-group">
+                    <label>District *</label>
+                    <input type="text" id="regDistrict" placeholder="Enter district">
+                </div>
+                <div class="form-group">
+                    <label>Circuit *</label>
+                    <input type="text" id="regCircuit" placeholder="Enter circuit">
+                </div>
+                <div class="form-group">
+                    <label>Community *</label>
+                    <input type="text" id="regCommunity" placeholder="Enter community">
+                </div>
+                <div class="form-group">
+                    <label>Digital Address</label>
+                    <input type="text" id="regDigitalAddress" placeholder="Enter digital address">
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="text" id="regPhone" placeholder="Enter phone number">
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="regEmail" placeholder="Enter admin email">
+                </div>
+                <div class="form-group">
+                    <label>Headmaster Name *</label>
+                    <input type="text" id="regHeadmaster" placeholder="Enter headmaster name">
+                </div>
+                <div class="form-group">
+                    <label>Admin Username *</label>
+                    <input type="text" id="regUsername" placeholder="Choose username">
+                </div>
+                <div class="form-group">
+                    <label>Admin Password *</label>
+                    <input type="password" id="regPassword" placeholder="Choose password (min 6 chars)">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password *</label>
+                    <input type="password" id="regConfirmPassword" placeholder="Confirm password">
+                </div>
+                <button class="auth-btn" onclick="handleRegister()">Register School</button>
+                <div id="registerError" class="auth-error"></div>
+                <div id="registerSuccess" class="auth-success"></div>
+            </div>
+
+            <div class="auth-switch">
+                <span id="authSwitchText">Don't have a school account? <a onclick="switchAuthTab('register')">Register your school</a></span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-left">          
+             <div class="menu-icon">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h1 class="app-title">JoEduTrack</h1>
+        </div>
+        
+        <div class="header-right">
+            <div class="user-badge" id="userBadge" style="display:none;" onclick="toggleUserMenu()">
+                <i class="fas fa-user-circle"></i>
+                <span id="userDisplayName">Admin</span>
+                <span class="role-badge" id="roleBadge">Admin</span>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar" id="userProfileToggle">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+        <div class="header-dropdown" id="userDropdown">
+            <div class="dropdown-header">Account</div>
+       
+            <a onclick="showChangePassword()"><i class="fas fa-key"></i> Change Password</a>
+            <div class="divider"></div>
+            <a onclick="handleLogout()" style="color: #e74c3c;"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+        </div>        
+    </header>
+
+    <!-- Scroll Detection Sidebars -->
+    <div class="scroll-sidebar left-sidebar" id="leftSidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-school"></i> Actions</h3>
+        </div>
+        <div class="sidebar-content">
+            
+            <li href="#" class="menu-header" data-submenu="academicmenu">
+                <a class="menu">
+                    <i class="fas fa-book"></i>
+                    Tables
+                    <i class="fas fa-caret-right caret"></i>
+                </a>
+                <ul class="sub-menu" id="academic-Submenu">
+                    <div class="sidebar-item" onclick="showTable('register')">
+                        <i class="fas fa-edit"></i>
+                        <span>Register</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showTable('sba')">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>SBA</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showTable('summary')">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Summary</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showReportCards()">
+                        <i class="fas fa-id-card"></i>
+                        <span>Report Cards</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showAnalytics()">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </div>
+                    
+                </ul>
+            </li>
+            
+            <!-- Academic -->
+            <div class="sidebar-divider"></div>     
+            <li href="#" class="menu-header" data-submenu="academicmenu">
+                <a class="menu">
+                    <i class="fas fa-book"></i>
+                    Academic
+                    <i class="fas fa-caret-right caret"></i>
+                </a>
+                <ul class="sub-menu" id="academic-Submenu">
+                    
+                    <div class="sidebar-item" onclick="showContent('classes')">
+                        <i class="fas fa-chalkboard"></i>
+                        <span>Classes</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('subjects')">
+                        <i class="fas fa-book-open"></i>
+                        <span>Subjects</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('timetable')">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Timetable</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('syllabus')">
+                        <i class="fas fa-tasks"></i>
+                        <span>Syllabus</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('assignments')">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Assessments</span>     
+                        
+                    </div>
+                </ul>
+            </li>
+
+            <!-- System Settings -->
+            <div class="sidebar-divider"></div>
+            <li href="#" class="menu-header" data-submenu="systemsettingsmenu">
+                <a class="menu">
+                    <i class="fas fa-cog"></i>
+                    System Settings
+                    <i class="fas fa-caret-right caret"></i>
+                </a>
+                <ul class="sub-menu" id="settingsSubmenu">
+                    
+                    <div class="sidebar-item" onclick="showContent('schoolInfo')">
+                        <i class="fas fa-school"></i>
+                        <span>School Info</span> 
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('academicYear')">
+                        <i class="fas fa-calendar"></i>
+                        <span>Academic Year</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('userManagement')">
+                        <i class="fas fa-users-cog"></i>
+                        <span>User Mgt</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('backup')">
+                        <i class="fas fa-database"></i>
+                        <span>Backup Data</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showSettings()">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>System Config</span>
+                    </div>
+                    
+                </ul>
+            </li>    
+        </div>
+    </div>
+
+    <div class="scroll-sidebar right-sidebar" id="rightSidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-tools"></i> Tools</h3>
+        </div>
+        <div class="sidebar-content">
+            
+            <div class="sidebar-divider"></div>     
+            <li href="#" class="menu-header" data-submenu="staffmenu">
+                <a class="menu">
+                    <i class="fas fa-file-invoice"></i>
+                    Export Mgt
+                    <i class="fas fa-caret-right caret"></i>
+                </a>
+                <ul class="sub-menu" id="student-submenu">
+                    
+                    <div class="sidebar-item" id="manual-sync">
+                        <i class="fas fa-sync"></i> 
+                        <span>Sync To Cloud</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="exportToExcel('summary')">
+                        <i class="fas fa-file-excel"></i>
+                        <span>Export Excel</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="exportAllData()">
+                        <i class="fas fa-database"></i>
+                        <span>Export All</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="exportToPDF('register')">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Export PDF</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="printTable('register')">
+                        <i class="fas fa-print"></i>
+                        <span>Print</span>
+                        
+                    </div>
+                </ul>
+            </li>            
+            
+            <div class="sidebar-divider"></div>
+            <li href="#" class="menu-header" data-submenu="studentmenu">
+                <a class="menu">
+                    <i class="fas fa-user-graduate"></i>
+                    Student Mgt
+                    <i class="fas fa-caret-right caret"></i>
+                </a>
+                <ul class="sub-menu" id="student-submenu">
+                    
+                    <div class="sidebar-item" onclick="showContent('admission')"> 
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add Student</span>  
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('studentList')">
+                        <i class="fas fa-list"></i>
+                        <span>Student List</span>    
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('studentAttendance')">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Attendance</span>     
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showTable('summary')">
+                        <i class="fas fa-pen"></i>
+                        <span>Brief Reports</span>   
+                    </div>
+                         
+                    <div class="sidebar-item"  onclick="showReportCards()">
+                     <i class="fas fa-chart-bar"></i>
+                     <span>Report Card</span> 
+                     </div>
+                </ul> 
+            </li>
+            
+            <div class="sidebar-divider"></div>     
+            <li href="#" class="menu-header" data-submenu="staffmenu">
+                <a class="menu">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    Staff Mgt
+                    <i class="fas fa-caret-right caret"></i>
+                </a>
+                <ul class="sub-menu" id="student-submenu">
+                    
+                    <div class="sidebar-item" onclick="showContent('addStaff')">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add Staff</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('staffList')">
+                        <i class="fas fa-list"></i>
+                        <span>Staff List</span>    
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('staffAttendance')">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Attendance</span> 
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showContent('staffReports')">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Report</span>    
+                    </div>
+                    
+                </ul>
+            </li>
+
+            <div class="sidebar-divider"></div>
+            <li href="#" class="menu-header" data-submenu="adminmenu">
+                <a class="menu">
+                    <i class="fas fa-sitemap"></i>
+                    Admin Control
+                    <i class="fas fa-caret-right caret"></i>
+                </a>
+                <ul class="sub-menu" id="adminSubmenu">
+                    
+                    <div class="sidebar-item" onclick="showAdminDashboard()">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showCreateAdminForm()">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Create Admin</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showEntityList()">
+                        <i class="fas fa-list"></i>
+                        <span>View Entities</span>
+                    </div>
+                    
+                    <div class="sidebar-item" onclick="showDataTracking()">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Monitor Data</span>
+                    </div>
+                    
+                     <div class="sidebar-item" style="color:green;" onclick="showSettings()">
+                            <i class="fas fa-cog"></i>
+                            <span>School Settings</span>  
+                    </div>
+                    
+                </ul>
+            </li>
+                        
+                        <div class="sidebar-divider"></div>
+            <li href="#" class="menu-header" data-submenu="staffmenu">
+                <a class="menu">
+                    <i class="fas fa-cog"></i>
+                    Class Settings
+                    <i class="fas fa-caret-right caret"></i>
+                </a>
+                <ul class="sub-menu" id="student-submenu">
+                    
+            <div class="sidebar-item" style="color:green">
+                <i class="fas fa-book" style="color:goldenrod;"></i>
+                 <input type="text" id="save-name" style="width:100px;" placeholder="Class Name">
+            </div>
+                    
+        <!-- Term Dropdown -->
+        <div class="sidebar-item">
+            <i class="fas fa-house" style="color:goldenrod;"></i>
+            <select id="term" style="width:100px;">
+                <option value="Term 1">Term 1</option>
+                <option value="Term 2">Term 2</option>
+                <option value="Term 3">Term 3</option>
+            </select>
+        </div>
+        
+        <!-- Class/Level Selector -->
+        <div class="sidebar-item">
+            <i class="fas fa-house" style="color:goldenrod;"></i>
+            <select id="class-level" style="width:100px;">
+                <option value="">Select Class/Level</option>
+                <option value="KG1">KG1</option>
+                <option value="KG2">KG2</option>
+                <option value="Basic1">Basic 1</option>
+                <option value="Basic2">Basic 2</option>
+                <option value="Basic3">Basic 3</option>
+                <option value="Basic4">Basic 4</option>
+                <option value="Basic5">Basic 5</option>
+                <option value="Basic6">Basic 6</option>
+                <option value="JHS1">JHS 1</option>
+                <option value="JHS2">JHS 2</option>
+                <option value="JHS3">JHS 3</option>
+                <option value="SHS1">SHS 1</option>
+                <option value="SHS2">SHS 2</option>
+                <option value="SHS3">SHS 3</option>
+           </select>
+        </div>
+
+        <!-- Course Selector -->
+        <div  class="sidebar-item">
+            <i class="fas fa-book" style="color:goldenrod;"></i>
+            <select id="course-select" style="width:100px;">
+                <option value="">Select Course</option>
+            </select>
+        </div>
+                                                      
+          <div  class="sidebar-item" style="color:green">
+                <i class="fas fa-plus" style="color:goldenrod;" onclick="addNewRow('register')"></i>
+                <input type="int" id="delete-row-number" style="width:100px; margin-left:5px;" placeholder="Del Row (Sn)" min="1"> 
+                <i class="fas fa-minus" style="color:red;"onclick="deleteRow()"></i>
+          </div>
+                    
+          <div  class="sidebar-item">
+             <i class="fas fa-save" style="color:goldenrod;"></i> 
+             <span style="background-color:blue; width:67%; border-radius:10px; padding:5px 0 5px 0; "onclick="saveData()"> Create Class</span>    
+          </div>                          
+           </ul>
+        </li>
+            
+            <div class="sidebar-divider"></div>
+            <li href="#" class="menu-header" data-submenu="staffmenu">
+                <a class="menu" style="background-color:brown;">
+                   <i class="fas fa-cog"></i>
+                  Del Settings
+                    <i class="fas fa-caret-right caret"></i>
+                </a>
+                <ul class="sub-menu" id="student-submenu">
+
+
+                    
+         <div class="sidebar-item">
+                <i class="fas fa-trash" style="color:red;" onclick="deleteData()"></i>
+                <span>Del Class</span>
+         </div>               
+           </ul>
+        </li>
+     </div>      
+  </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="grid-container">    
+        <!-- ===== ADMIN DASHBOARD CONTAINER ===== -->
+        <div id="admin-dashboard-container" class="admin-dashboard-container hidden">
+            <!-- Admin dashboard will be injected here -->
+        </div>
+                
+
+
+        <div class="detail">Personal Details (User Profile)   </div>
+        <div class="input-group">
+            <div class="input-item">
+                <label>Male</label> <input id="male-count">
+                <label>Total Male Pass</label> <input id="male-pass">
+            </div>
+            <div class="input-item">
+                <label>Female</label> <input id="female-count">
+                <label>Total Female Pass</label> <input id="female-pass">
+            </div>
+        </div>
+
+        <div class="detail">School Details (School Profile)</div>
+        <div class="input-group">
+            <div class="input-item">
+                <label>Region</label> <input id="region">
+                <label>Community</label> <input id="community">
+            </div>
+            <div class="input-item">
+                <label>District</label> <input id="district">
+                <label>School Number</label> <input placeholder="RC-DC-CC-SC" id="school-reg">
+            </div>
+        </div>
+
+        <div class="detail">Class Details (Class Files)</div>
+        <div class="input-group">
+            <div class="input-item">
+                <label>Circuit</label> <input id="circuit">
+                <label>Class Teacher</label> <input id="pass-mark">
+            </div>
+            <div class="input-item">
+                <label>Total Learners</label> <input id="total-learners">
+                <label>Headmaster</label> <input id="total-pass">
+            </div>
+        </div>
+  
+
+        <button id="toggle-inputs-btn" class="toggle-btn">
+            <span>View More</span>
+            <span class="arrow">▼</span>
+        </button>
+
+        <!-- Save/Load Section -->
+        <div class="save-section">
+            <div class="column-group">
+                <div class="column">
+                    <select id="saved-files" class="allinput" onchange="autoLoadData()">
+                        <option value=""> Class To Load?</option>
+                    </select>
+                </div>
+
+                <div class="column">
+                    <button class="allbutton" onclick="saveData()"><i class="fas fa-save"></i> Save Data</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-container">
+            
+            <!-- Analytics Container -->
+            <div id="analytics-container" class="analytics-container hidden">
+                <h2><i class="fas fa-chart-bar"></i> Analytics & Reports</h2>
+                
+                <div class="analytics-summary">
+                    <div class="summary-stat">
+                        <h4>Total Students</h4>
+                        <div class="number" id="totalStudents">0</div>
+                        <div class="trend up">↑ 2% from last term</div>
+                    </div>
+                    
+                    <div class="summary-stat">
+                        <h4>Class Average</h4>
+                        <div class="number" id="classAverage">0</div>
+                        <div class="trend up">↑ 5% from last term</div>
+                    </div>
+                    
+                    <div class="summary-stat">
+                        <h4>Pass Rate</h4>
+                        <div class="number" id="passRate">0%</div>
+                        <div class="trend up">↑ 3% from last term</div>
+                    </div>
+                    
+                    <div class="summary-stat">
+                        <h4>Attendance</h4>
+                        <div class="number" id="attendanceRate">0%</div>
+                        <div class="trend down">↓ 1% from last term</div>
+                    </div>
+                </div>
+                
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Student Performance Overview</h3>
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Subject Performance Overview</h3>
+                        <div class="chart-container">
+                            <canvas id="subjectChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Attendance Overview</h3>
+                        <div class="chart-container">
+                            <canvas id="attendanceChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Export Options</h3>
+                        <div class="export-buttons">
+                            <button class="export-btn excel" onclick="exportToExcel('register')">
+                                <i class="fas fa-file-excel"></i> Export Register
+                            </button>
+                            <button class="export-btn excel" onclick="exportToExcel('sba')">
+                                <i class="fas fa-file-excel"></i> Export SBA
+                            </button>
+                            <button class="export-btn excel" onclick="exportToExcel('summary')">
+                                <i class="fas fa-file-excel"></i> Export Summary
+                            </button>
+                            <button class="export-btn" onclick="exportAllData()">
+                                <i class="fas fa-database"></i> Export All
+                            </button>
+                        </div>
+                        <div class="import-section">
+                            <h4>Import Data</h4>
+                            <input type="file" id="importFile" accept=".json" onchange="importDataFromJSON(this.files[0])">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Register Table -->
+            <div id="register-table">
+                <div class="week-navigation">
+                    <button id="prev-weeks">&laquo; Previous</button>
+                    <span id="week-range">Weeks 1</span>
+                    <button id="next-weeks">Next &raquo;</button>
+                </div>
+
+                <table id="attendance-grid">
+                    <thead>
+                        <tr class="tablenames">
+                            <th colspan="3" class="tablenames">REGISTER</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="0" colspan="1" class="serial">Sn</th>
+                            <th rowspan="0" colspan="1">Learners_Full_Name</th>
+                            <th rowspan="0" colspan="1">Sex Gender</th>
+                        </tr>
+                        <tr id="month-year-header" class="dates"></tr>
+                        <tr id="days-header" class="dates"></tr>
+                    </thead>
+                    <tbody id="attendance-body"></tbody>
+                    <tfoot></tfoot>
+                </table>
+
+                <div class="action-buttons">
+                    <div>
+                        <button onclick="printTable('register')"><i class="fas fa-print"></i> Print Reg</button>
+                    </div>
+                    <div>
+                        <button onclick="exportToPDF('register')"><i class="fas fa-file-pdf"></i> Export To PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SBA Table -->
+            <div id="sba-table" class="hidden">
+                <div class="subject-navigation">
+                    <button id="prev-subject">&laquo; Previous</button>
+                    <select class="sba-subject-select" id="sba-subject">
+                        <option value="">Select Subject</option>
+                    </select>
+                    <button id="next-subject">Next &raquo;</button>
+                </div>
+                
+                <table id="grid">
+                    <thead>
+                        <tr class="tablenames">
+                            <th colspan="16" class="tablenames">SCHOOL BASED ASSESSEMENT (SBA)</th>
+                        </tr>
+                        <tr class="subject-header-row">
+                            <td colspan="16" class="subject-header" id="current-subject">Select Subject</td>
+                        </tr>
+                        <tr>
+                            <th>Sn</th>
+                            <th>Enter_Learners_Full_Name</th>
+                            <th>Sex(M&F)</th>
+                            <th class="test">Test1 (A)</th>
+                            <th class="test">Test2 (A)</th>
+                            <th class="test">Test3 (A)</th>
+                            <th class="test">Test4 (A)</th>
+                            <th class="exam">Exam (B)</th>
+                            <th class="totala">Total (A)</th>
+                            <th class="totalb">Total (B)</th>
+                            <th class="pofa">(50% of A)</th>
+                            <th class="pofb">(50% of B)</th>
+                            <th class="ppp">(50% + 50%)</th>
+                            <th class="po">Position</th>
+                            <th class="gr">Grade</th>
+                            <th class="re">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody id="grid-body"></tbody>
+                </table>
+
+                <div class="action-buttons">
+                    <div>
+                        <button onclick="printTable('sba')"><i class="fas fa-print"></i> Print SBA</button>
+                    </div>
+                    <div>
+                        <button onclick="exportToPDF('sba')"><i class="fas fa-file-pdf"></i> Export To PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Table -->
+            <div id="summary-table" class="hidden">
+                <table class="summary-table">
+                    <thead>
+                        <tr class="tablenames">
+                            <th colspan="16" class="tablenames">SBA SUMMARY DATA</th>
+                        </tr>
+                        <tr class="demographic-inputs">
+                            <th colspan="2">
+                                <div class="demographic-input-container">
+                                    <span>Male</span>
+                                    <input type="number" class="summary-input" id="summary-male">
+                                </div>
+                            </th>
+                            
+                            <th colspan="1">
+                                <div class="demographic-input-container">
+                                    <span>Total </span>
+                                    <input type="number" class="summary-input" id="summary-total" readonly>
+                                </div>
+                            </th>
+                            
+                            <th colspan="6">
+                                <div class="demographic-input-container">
+                                    <span>SUBJECTS</span>
+                                </div>
+                            </th>
+                            
+                            <th colspan="7">
+                                <div class="demographic-input-container">
+                                    <span>female</span>
+                                    <input type="number" class="summary-input" id="summary-female">
+                                </div>
+                            </th>
+                        </tr>
+                        <tr id="summary-header-row">
+                            <th class="sn-col">Sn</th>
+                            <th class="name-col">Learners_Full__Name</th>
+                            <th class="sex-col">Sex(M&F)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summary-body"></tbody>
+                </table>
+
+                <div class="action-buttons">
+                    <div>
+                        <button onclick="printTable('summary')"><i class="fas fa-print"></i> Print Summary</button>
+                    </div>
+                    <div>
+                        <button onclick="exportToPDF('summary')"><i class="fas fa-file-pdf"></i> Export To PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Cards -->
+            <div id="report-cards-container" class="hidden">
+                <div id="report-cards-list"></div>
+                <div class="action-buttons">
+                    <div>
+                        <button onclick="printReportCards()"><i class="fas fa-print"></i> Print Report Cards</button>
+                    </div>
+                    <div>
+                        <button onclick="exportReportCardsToPDF()"><i class="fas fa-file-pdf"></i> Export To PDF</button>
+                    </div>
+                </div>
+            </div>
+            
+<!-- Admission Table Container -->
+<div id="admission-container" class="hidden">
+    <div class="admission-controls">
+        <button onclick="addAdmissionRow()"><i class="fas fa-plus"></i> Add Student</button>
+        <button onclick="saveAdmissionData()"><i class="fas fa-save"></i> Save</button>
+        <input type="number" id="admission-delete-row" placeholder="Row #" min="1" style="width:80px; height:30px;">
+         <button onclick="deleteAdmissionRow()" class="danger">
+            Del Row
+        <i class="fas fa-trash"></i>
+        </button>
+    </div>
+    
+    <!-- School Name Header Inputs -->
+    <input class="header-input" id="school-name" readonly>    <input class="header-input" id="school-name" readonly>
+       <h2>
+        <i class="fas fa-user-plus"></i> 
+        Student Admission
+        <i class="fas fa-user-plus"></i> 
+      </h2>
+    <div class="search-box">
+       <button onclick="clearSearch()" class="clear-btn">
+            Clear Search
+           <i class="fas fa-times"></i>
+        </button>
+        <i class="fas fa-search"></i>
+        <input type="text" id="admission-search" placeholder="Search Anything In The Table" oninput="searchTable()">
+        <button onclick="clearSearch()" class="clear-btn">
+            <i class="fas fa-times"></i>
+            Clear Search
+        </button>
+    </div>
+    
+    <div class="table-wrapper">
+        <table id="admission-table" class="admission-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Sn<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(1)">Student's_Full_Name<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(2)">Sex Male_Female<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(3)">Admission Number<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(4)">Date_of_Birth<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(5)">Ghana_Card_ID No<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(6)">Guardian_Name<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(7)">Guardian Sex<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(8)">Class Name<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(9)">Community Name<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(10)">Digital_Address<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(11)">Phone_Number<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(12)">Date Admitted<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(13)">Assign Classroom<span class="sort-indicator">↕</span></th>
+                </tr>
+            </thead>
+            <tbody id="admission-body"></tbody>
+        </table>
+    </div>
+    
+    <div class="admission-stats">
+        <span>Total Students: <strong id="admission-total">0</strong></span>
+        <span>Visible: <strong id="admission-visible">0</strong></span>
+    </div>
+    
+    <div id="admissionMessage" class="auth-error"></div>
+</div>       
+            
+            <!-- Settings -->
+            <div id="settings-container" class="settings-container hidden">
+                <h2><i class="fas fa-cog"></i> School Settings</h2>
+                
+                <div class="section-title"><i class="fas fa-school"></i> School Information</div>
+                <div class="settings-grid">
+                    <div class="form-group">
+                        <label>School Name</label>
+                        <input type="text" id="settingsSchoolName">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" id="settingsAddress">
+                    </div>
+                    <div class="form-group">
+                        <label>Region</label>
+                        <input type="text" id="settingsRegion">
+                    </div>
+                    <div class="form-group">
+                        <label>District</label>
+                        <input type="text" id="settingsDistrict">
+                    </div>
+                    <div class="form-group">
+                        <label>Circuit</label>
+                        <input type="text" id="settingsCircuit">
+                    </div>
+                    <div class="form-group">
+                        <label>Community</label>
+                        <input type="text" id="settingsCommunity">
+                    </div>
+                    <div class="form-group">
+                        <label>Digital Address</label>
+                        <input type="text" id="settingsDigitalAddress">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="settingsPhone">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="settingsEmail">
+                    </div>
+                    <div class="form-group">
+                        <label>Headmaster</label>
+                        <input type="text" id="settingsHeadmaster">
+                    </div>
+                    <div class="form-group">
+                        <label>School Code</label>
+                        <input type="text" id="settingsSchoolCode" readonly style="background:#f5f5f5;">
+                    </div>
+                </div>
+
+                <div class="settings-btn-group">
+                    <button class="settings-btn" onclick="saveSettings()"><i class="fas fa-save"></i> Save Settings</button>
+                    <button class="settings-btn danger" onclick="closeSettings()"><i class="fas fa-times"></i> Close</button>
+                </div>
+                <div id="settingsMessage" class="auth-error"></div>
+            </div>
+
+            <!-- Change Password -->
+            <div id="change-password-container" class="change-password-container hidden">
+                <h2><i class="fas fa-key"></i> Change Password</h2>
+                
+                <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" id="changeCurrentPassword" placeholder="Enter current password">
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="changeNewPassword" placeholder="Enter new password (min 6 chars)">
+                </div>
+                <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="changeConfirmPassword" placeholder="Confirm new password">
+                </div>
+                
+                <button class="change-password-btn" onclick="changePassword()"><i class="fas fa-save"></i> Update Password</button>
+                <button class="change-password-btn danger" onclick="closeChangePassword()" style="margin-top:10px;"><i class="fas fa-times"></i> Cancel</button>
+                
+                <div id="changePasswordMessage" class="auth-error"></div>
+            </div>
+            
+<!-- Staff Management Container -->
+<div id="staff-container" class="staff-container hidden">
+    <div class="staff-header">
+        <h2><i class="fas fa-chalkboard-teacher"></i> Staff Management</h2>
+        <p class="warning-text">
+            ⚠️ Staff ID and Ghana Card Number are required for login access
+        </p>
+    </div>
+    
+    <div class="staff-controls">
+        <button onclick="addStaffRow()"><i class="fas fa-user-plus"></i> Add Staff</button>
+        <button onclick="saveStaffData()"><i class="fas fa-save"></i> Save All</button>
+        <button onclick="exportStaffToExcel()"><i class="fas fa-file-excel"></i> Export Excel</button>
+        <button onclick="exportStaffToPDF()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+        <div class="staff-delete-control">
+            <input type="number" id="staff-delete-row" placeholder="Row #" min="1" style="width:60px; height:30px;">
+            <button onclick="deleteStaffRow()" class="danger">
+                <i class="fas fa-trash"></i> Delete
+            </button>
+        </div>
+    </div>
+    
+    <div class="staff-search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="staff-search" placeholder="Search staff records..." oninput="searchStaffTable()">
+        <button onclick="clearStaffSearch()" class="clear-btn">
+            <i class="fas fa-times"></i> Clear
+        </button>
+    </div>
+    
+   <div class="staff-stats">
+        <span>Total Staff: <strong id="staff-total">0</strong></span>
+        <span>With Login Access: <strong id="staff-login-count">0</strong></span>
+        <span>Without Login: <strong id="staff-no-login-count" style="color:#e74c3c;">0</strong></span>
+   </div>
+    
+    <div class="staff-table-wrapper">
+        <table id="staff-table" class="staff-table">
+            <thead>
+                <tr>
+                    <th onclick="sortStaffTable(0)" style="width:40px;">Sn<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(1)" style="min-width:150px;">Staff Full Name<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(2)" style="min-width:80px;">Sex<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(3)" style="min-width:120px;">Date of Birth<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(4)" style="min-width:120px;">Phone Number<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(5)" style="min-width:140px;">1ST Appointment<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(6)" style="min-width:120px;">Grade Appointed<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(7)" style="min-width:120px; background-color: #e74c3c; color: white;">Staff ID *<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(8)" style="min-width:140px; background-color: #e74c3c; color: white;">Ghana Card No *<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(9)" style="min-width:120px;">SSNIT No<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(10)" style="min-width:100px;">Bank Name<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(11)" style="min-width:100px;">Branch<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(12)" style="min-width:140px;">A/C Number<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(13)" style="min-width:150px;">NOK Name<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(14)" style="min-width:120px;">Rel. Next of Kin<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(15)" style="min-width:140px;">Next of Kin Phone<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(16)" style="min-width:100px;">Marital Status<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(17)" style="min-width:120px;">Language Spoken<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(18)" style="min-width:100px;">No. of Children<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(19)" style="min-width:180px;">Home Address<span class="sort-indicator">↕</span></th>
+                    <th onclick="sortStaffTable(20)" style="min-width:140px;">Digital Address<span class="sort-indicator">↕</span></th>
+                    <th style="min-width:120px; background-color: #2ecc71; color: white;">Login Status</th>
+                    <th style="min-width:100px;">Generate_Login&Reset_Login</th>
+                </tr>
+            </thead>
+            <tbody id="staff-body"></tbody>
+        </table>
+    </div>
+    <div id="staffMessage" class="staff-message"></div>
+</div>
+            
+            
+            
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="buttoncontainer">     
+        <button class="registerbutton" onclick="showTable('register')">Register</button>
+        <button class="sbabutton" onclick="showTable('sba')">SBA</button>
+    </div>
+
+<script src="js/DataManager.js"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/admission.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/table.js"></script>
+<script src="js/register.js"></script>
+<script src="js/sba.js"></script>
+<script src="js/summary.js"></script>
+<script src="js/reportCards.js"></script>
+<script src="js/export.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/staff.js"></script>
+</body>
+</html>

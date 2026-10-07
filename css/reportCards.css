@@ -1,0 +1,134 @@
+/* ===== REPORT CARD STYLES ===== */
+.report-card {
+    width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #333;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    page-break-after: always;
+}
+
+.report-card h1 {
+    text-align: center;
+    color: darkblue;
+    margin-bottom: 5px;
+    font-size: 24px;
+}
+
+.report-card h2 {
+    text-align: center;
+    color: darkblue;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.report-card h3 {
+    background-color: goldenrod;
+    color: darkblue;
+    padding: 5px;
+    text-align: center;
+    margin: 15px 0 10px 0;
+}
+
+.report-card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 12px;
+}
+
+.report-card table, .report-card th, .report-card td {
+    border: 1px solid #333;
+}
+
+.report-card th {
+    background-color: #f2f2f2;
+    padding: 5px;
+    text-align: left;
+}
+
+.report-card td { padding: 5px; }
+
+/* ===== SCHOOL HEADER ===== */
+.school-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.school-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 30px;
+    object-fit: contain;
+    border: none;
+}
+
+.student-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 30px;
+    object-fit: cover;
+    border: none;
+}
+
+/* ===== STUDENT INFO ===== */
+.student-info {
+    display: flex;
+    margin: 15px 0;
+}
+
+.student-photo-container { margin-right: 30px; }
+.student-details { flex-grow: 1; }
+
+/* ===== GRADING SCALE ===== */
+.grading-scale {
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+.grading-scale table {
+    width: auto;
+    margin: 10px 0;
+}
+
+.subject-row td { font-weight: bold; }
+
+/* ===== DIVIDER ===== */
+.divider {
+    border-top: 1px solid #333;
+    margin: 15px 0;
+}
+
+/* ===== REMARKS SECTION ===== */
+.remarks-section {
+    margin-top: 20px;
+    font-size: 12px;
+    text-align: left;
+}
+
+.remarks-section p { margin: 5px 0; }
+
+/* ===== SIGNATURE ===== */
+.signature-line {
+    border-top: 1px solid #333;
+    width: 200px;
+    margin: 30px 0 10px 0;
+}
+
+/* ===== PRINT ===== */
+@media print {
+    body { background: white; margin: 0; padding: 0; }
+    .report-card {
+        border: none;
+        box-shadow: none;
+        page-break-after: always;
+        margin: 0;
+        padding: 10mm;
+    }
+    .no-print { display: none !important; }
+}
+

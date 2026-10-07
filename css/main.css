@@ -1,0 +1,333 @@
+/* ===== GLOBAL RESET & BASIC STYLES ===== */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    
+}
+
+/* ===== GRID CONTAINER ===== */
+.grid-container {
+    width: auto;
+    background-color: darkslategrey;
+    padding: 5px; 
+    border: none;
+    margin: 72px 0px 90px 0px;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+/* ===== HEADER INPUTS ===== */
+.header-input {
+    background-color: black;
+    color: white;
+    width: 100%;
+    border: none;
+    text-align: center;
+    padding: 0px 0px;
+    text-transform: uppercase;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.hinput { font-size: 45px; }
+.tinput { font-size: 40px; }
+.cinput { font-size: 35px; }
+
+/* ===== INPUT GROUPS ===== */
+.input-group {
+    text-align: center;
+    height: 320px;
+    display: flex;
+    gap: 0.3%;
+    width: 100%;
+    margin: 5px 0;
+    font-size: 40px;
+}
+
+.input-item {
+    background-color: burlywood;
+    border-radius: 10px;
+    padding: 5px;
+    width: 49.67%;
+    text-align: center;
+}
+
+.input-item label { 
+    text-align: center;
+    display: block;
+    margin-bottom: 5px; 
+}
+
+.input-item input { 
+    height: 70px;
+    display: block; 
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 20px;
+    font-size: 35px;
+}
+
+/* ===== TOGGLE BUTTON ===== */
+.input-group, .detail { display: none; }
+.input-group.visible, 
+.detail.visible { display: flex !important; }
+
+.toggle-btn {
+    background-color: goldenrod;
+    color: darkblue;
+    border: 1px solid darkblue;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 5px 0;
+}
+
+.toggle-btn .arrow {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+.toggle-btn.collapsed .arrow { transform: rotate(0deg); }
+.toggle-btn.expanded .arrow { transform: rotate(180deg); }
+
+.detail {
+    background-color: cadetblue;
+    width: auto;
+    text-align: center;
+    height: 60px;
+    font-size: 40px;
+    color: black;
+    padding: 5px;
+}
+
+/* ===== HEADER STYLES ===== */
+.header, .buttoncontainer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    height: auto;
+}
+
+.header { top: 0; }
+.buttoncontainer { bottom: 0; }
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.menu-icon:hover { transform: scale(1.1); }
+
+.app-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* ===== HEADER DROPDOWN ===== */
+.header-dropdown {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    padding: 10px 0;
+    min-width: 200px;
+    display: none;
+    z-index: 1001;
+}
+
+.header-dropdown.show { display: block; }
+
+.header-dropdown a {
+    display: block;
+    padding: 12px 20px;
+    color: #2c3e50;
+    text-decoration: none;
+    transition: background 0.3s;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.header-dropdown a:hover { background: #f5f5f5; }
+.header-dropdown a i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+}
+
+.header-dropdown .divider {
+    border-top: 1px solid #eee;
+    margin: 5px 0;
+}
+
+.header-dropdown .dropdown-header {
+    padding: 8px 20px 4px 20px;
+    font-size: 12px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ===== USER BADGE ===== */
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.user-badge:hover { background: rgba(255,255,255,0.2); }
+
+.user-badge .role-badge {
+    font-size: 12px;
+    background: #3498db;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ===== SAVE/LOAD SECTION ===== */
+.save-section {
+    padding: 0px;
+    border-radius: 0px;
+    border: 1px solid black;       
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.column {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    border: 0px none black;        
+}
+
+.column-group {
+    text-align: center;
+}
+
+.allinput, .allbutton, .deletebutton, 
+.allblue, .savename {
+    min-height: 100px;
+    border: 0px none;
+    padding: 0px;
+    margin: 0px;
+    font-size: 45px;
+    text-align: center;
+    width: auto;
+}
+
+.deletebutton, .deleterow { color: red; }
+.savename { background-color: darkorange; }
+
+/* ===== BOTTOM NAVIGATION ===== */
+.registerbutton, .sbabutton, 
+.summarybutton, .reportbutton {
+    background-color: green;
+    color: white;
+    height: 50px;
+    width: 320px;
+    margin: 10px;
+    font-size: 30px;
+    border-radius: 30px;
+}
+
+/* ===== SCHOOL HEADER ===== */
+.school-name-header, .term-class-header,
+.course-header {
+    text-align: center;
+    font-weight: bold;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    text-transform: uppercase;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.school-name-header {
+    font-size: 36px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
+.course-header {
+    font-size: 30px;
+    padding: 0px;
+}
+
+.term-class-header {
+    font-size: 28px;
+    padding: 0px;
+}
+
+
+
+
+

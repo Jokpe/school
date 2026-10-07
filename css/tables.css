@@ -1,0 +1,557 @@
+/* ===== TABLE STYLES ===== */
+table { 
+    border-collapse: collapse; 
+    width: 100%;
+    height: auto;    
+    padding-bottom: 200px;        
+    margin: 0 0 0px 0;
+    min-width: 100%;
+    
+}
+
+.tablenames {
+    background-color: goldenrod;
+    height: 80px;
+    color: darkblue;
+    font-weight: 20px;
+    font-size: 36px;
+    border-right: none;
+    border-bottom: none;
+}
+
+th, td { 
+    border: 1px solid black; 
+    padding: 0px;
+    text-align: center;
+    margin: 0px;
+}
+
+th {
+    background: goldenrod;
+    color: darkblue; 
+    padding: 10px; 
+    font-size: 20px;
+}
+
+.serial{
+      border-top: none;
+      
+}
+
+.test, .totala, .pofa { background-color: cadetblue; }
+.po, .gr, .re { background-color: indianred; }
+.exam, .totalb, .pofb { background-color: lightcoral; }
+.ttotal { background-color: cadetblue; }
+.ppp { background-color: greenyellow; }
+
+/* ===== CELL INPUTS ===== */
+.days-open-input, .cell-input { 
+    border: none; 
+    width: 100%; 
+    height: 40px;
+    padding: 0px;
+    border: none;
+    text-align: center;
+    background-color: lightsalmon;
+}
+
+.cell-input:focus { 
+    background-color: #e6f3ff; 
+    outline: none; 
+}
+
+.cell-input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 100hv;
+    border: 0px solid #555;
+    background-color: white;
+    cursor: pointer;
+    margin-bottom: -8px;    
+    position: relative;
+}
+
+.cell-input[type="checkbox"]:checked {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.cell-input[type="checkbox"]:checked::after {
+    content: "✓";
+    color: white;
+    font-size: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.total-cell {
+    background: lightslategray;
+    text-align: center;
+    color: darkblue;
+    width: 100%;
+    height: 40px;
+    border-radius: 0px;
+}
+
+.deinput {
+    background-color: white;
+    width: 120px;
+    height: 35px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.gender-select {
+    width: 100%;
+    text-align: center;
+    border: none;
+    background: burlywood;
+    padding: 0px;       
+    margin: 0px;
+}
+
+/* ===== TABLE HEADERS ===== */
+.month-select, .year-input {
+    background-color: chocolate;
+    width: 49.5%;
+    height: 50px;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    font-size: 25px;
+    color: darkblue;
+}
+
+.dates {
+    background-color: chocolate;
+    width: 100%;
+    height: 50px;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+}
+
+.week-header{
+    border-left: none;
+}
+
+.week-header:not(.active),
+.month-year-cell:not(.active) { display: none; }
+
+#days-header th { display: table-cell !important; }
+
+.week-column { display: none; }
+.week-column.active { display: table-cell; }
+
+.day-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.day-name { font-weight: bold; }
+.day-date { font-size: 15px; }
+
+.date-select {
+    width: 100%;
+    border: none;
+    text-align: center;
+    background: transparent;
+    font-size: 15px;
+}
+
+/* ===== SUMMARY TABLE ===== */
+.summary-table {
+    width: auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+.summary-table th, .summary-table td {
+    border: 1px solid black;
+    padding: 0px;
+    text-align: center;
+}
+
+.summary-table th {
+    background-color: goldenrod;
+    color: darkblue;
+    padding: 5px;
+    height: auto;
+}
+
+.summary-header {
+    width: auto;        
+    background-color: darkslategrey;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.demographic-inputs th {
+    padding: 0;
+    background-color: burlywood;
+}
+
+.demographic-input-container {
+    padding: 5px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+}
+
+.demographic-input-container span {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.demographic-input-container input {
+    width: auto;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.sn-col { width: 40px; }
+.name-col { width: 120px; padding: 5px; }
+.sex-col { width: 70px; }
+
+.vertical-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    white-space: nowrap;
+    height: 180px;
+    vertical-align: middle;
+    padding: 5px;
+    width: auto;
+}
+
+.summary-total {
+    background-color: lightslategray;
+    font-weight: bold;
+    width: auto;
+}
+
+.summary-table td { padding: 0px; }
+
+.summary-table input[type="text"],
+.summary-table input[type="number"],
+.summary-table select {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: white;
+}
+
+.summary-table input[readonly] {
+    background-color: lightblue;
+}
+
+.summary-table td:not(:first-child) {
+    min-width: 30px;
+}
+
+/* ===== SUBJECT NAVIGATION ===== */
+.subject-header-row {
+    background-color: goldenrod;
+    color: darkblue;
+}
+
+.subject-header-row select {
+    width: auto;
+    padding: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid darkblue;
+    background: white;
+    color: darkblue;
+}
+
+.subject-header-row td { padding: 0px 0; text-align: center; }
+
+.subject-header {
+    background-color: goldenrod;
+    color: darkblue;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+    border-top: none;
+}
+
+.subject-column { display: none; }
+.subject-column.active { display: table-cell; }
+
+.sba-subject-select {
+    padding: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 10px;
+;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons {
+    background-color: black;
+    text-align: center;
+    align-content: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+button {
+    margin: 0px; 
+    padding: 8px 16px; 
+    cursor: pointer;
+    background-color: goldenrod;
+    color: darkblue;
+    border: 1px solid darkblue;
+    border-radius: 0px;
+    font-weight: bold;
+}
+
+/* ===== NAVIGATION ===== */
+.week-navigation {
+    text-align: center; 
+    margin: 10px 0; 
+}
+
+.subject-navigation {
+    text-align: center;
+    margin: 10px 0;
+}
+
+/* ===== ERROR ===== */
+.error { background-color: #ffdddd; }
+
+/* ===== FOOTER SUMMARY ROWS ===== */
+tfoot .summary-row {
+    background-color: #d4edda;
+    font-style: italic;
+    color: darkblue;
+}
+
+tfoot .summary-row td {
+    padding: 0px;
+    border: 1px solid black;
+    background-color: goldenrod;
+}
+
+/* ===== HIDDEN ===== */
+.hidden { display: none; }
+
+/* ===== PRINT ===== */
+@media print {
+    .week-navigation, .action-buttons, .save-section {
+        display: none !important;
+    }
+
+/* ===== ADMISSION TABLE ===== */
+#admission-container {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.admission-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.admission-controls button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    background: #2c3e50;
+    color: white;
+}
+
+.admission-controls button:hover {
+    background: #1a252f;
+}
+
+.admission-controls button.danger {
+    background: #e74c3c;
+}
+
+.admission-controls button.danger:hover {
+    background: #c0392b;
+}
+
+.admission-search-filter {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.search-box, .filter-box {
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 5px;
+    padding: 5px 10px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-box i, .filter-box i {
+    color: #7f8c8d;
+    margin-right: 8px;
+}
+
+.search-box input, .filter-box input {
+    border: none;
+    background: transparent;
+    padding: 8px;
+    flex: 1;
+    font-size: 14px;
+    outline: none;
+}
+
+.clear-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.clear-btn:hover {
+    background: #c0392b;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+#admission-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+#admission-table th {
+    background: #2c3e50;
+    color: white;
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+}
+
+#admission-table th:hover {
+    background: #34495e;
+}
+
+#admission-table th .sort-indicator {
+    font-size: 12px;
+    margin-left: 4px;
+    opacity: 0.6;
+}
+
+#admission-table td {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: center;
+}
+
+#admission-table input, #admission-table select {
+    width: 100%;
+    border: none;
+    padding: 6px;
+    background: transparent;
+    text-align: center;
+    font-size: 14px;
+}
+
+#admission-table input:focus, #admission-table select:focus {
+    outline: 2px solid #3498db;
+    background: #f0f8ff;
+}
+
+#admission-table .cell-input {
+    width: 100%;
+}
+
+.admission-stats {
+    display: flex;
+    gap: 20px;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.admission-stats strong {
+    color: #2c3e50;
+}
+
+    
+/* Responsive */
+@media (max-width: 768px) {
+    #admission-table {
+        font-size: 12px;
+    }
+    
+    #admission-table th {
+        padding: 8px 4px;
+    }
+    
+    .admission-search-filter {
+        flex-direction: column;
+    }
+    
+    .search-box, .filter-box {
+        width: 100%;
+    }
+}    
+
+    .week-header:not(.active),
+    .month-year-cell:not(.active),
+    .week-column:not(.active) {
+        display: none !important;
+    }
+    
+    #register-table:not(.hidden),
+    #sba-table:not(.hidden),
+    #summary-table:not(.hidden) {
+        display: block !important;
+    }
+    
+    .hidden { display: none !important; }
+    
+    table { page-break-inside: auto !important; }
+    tr {
+        page-break-inside: avoid !important;
+        page-break-after: auto !important;
+    }
+
+
+    
